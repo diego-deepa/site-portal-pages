@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>竞彩网 · 多维信息卡片</title>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f9fc;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            color: #1a2b3c;
+            line-height: 1.6;
+            padding: 2rem 1.2rem 3rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page {
+            max-width: 1160px;
+            width: 100%;
+        }
+
+        /* 主视觉区域 — 网格与区块交融 */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+            margin-bottom: 3.2rem;
+        }
+
+        @media (min-width: 700px) {
+            .hero-grid {
+                grid-template-columns: 1.3fr 0.9fr;
+            }
+        }
+
+        .hero-block {
+            background: linear-gradient(135deg, #0a2e38 0%, #104a56 100%);
+            border-radius: 32px;
+            padding: 2.8rem 2.2rem;
+            color: #e8f3f0;
+            box-shadow: 0 12px 28px -8px rgba(8, 60, 70, 0.25);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-block h1 {
+            font-size: 2.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .hero-block h1 em {
+            font-style: normal;
+            background: #28b8a0;
+            color: #0c2e36;
+            padding: 0 0.2em;
+            border-radius: 6px;
+        }
+
+        .hero-block p {
+            font-size: 1.2rem;
+            opacity: 0.92;
+            max-width: 90%;
+        }
+
+        .hero-stat {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 8px 20px rgba(0, 30, 40, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .hero-stat .badge {
+            background: #d5f0ec;
+            color: #0b4a53;
+            width: fit-content;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .hero-stat .big-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #196d72;
+            line-height: 1;
+        }
+
+        .hero-stat p {
+            color: #2d4a54;
+            font-size: 0.95rem;
+        }
+
+        /* 核心卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 2.8rem 0;
+        }
+
+        @media (min-width: 540px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 860px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.8rem 1.6rem 2rem;
+            box-shadow: 0 4px 10px rgba(0, 30, 45, 0.04);
+            border: 1px solid #e2edf0;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: #28b8a0;
+            box-shadow: 0 12px 24px -8px rgba(5, 80, 80, 0.10);
+            transform: translateY(-3px);
+        }
+
+        .card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0d3f45;
+            margin-bottom: 0.4rem;
+        }
+
+        .card p {
+            color: #2f4b57;
+            font-size: 0.95rem;
+        }
+
+        .card .tag-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 0.6rem;
+        }
+
+        .tag {
+            background: #e3f4f1;
+            color: #0c5f63;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .tag.highlight {
+            background: #28b8a0;
+            color: white;
+        }
+
+        /* 人群描述网格 */
+        .audience-shelf {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            margin: 2.5rem 0 2rem;
+        }
+
+        @media (min-width: 580px) {
+            .audience-shelf {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .audience-item {
+            background: #f7fbfd;
+            padding: 1.2rem 1.6rem;
+            border-radius: 20px;
+            border-left: 6px solid #28b8a0;
+        }
+
+        .audience-item h4 {
+            font-weight: 600;
+            color: #0b3a40;
+            margin-bottom: 0.15rem;
+        }
+
+        .audience-item p {
+            color: #2e4a56;
+            font-size: 0.9rem;
+        }
+
+        /* 链接段落 & 反复访问提示 */
+        .link-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 2rem 2.2rem;
+            margin: 2rem 0 1.8rem;
+            border: 1px solid #d9e9ed;
+            box-shadow: 0 6px 14px rgba(0, 40, 50, 0.02);
+        }
+
+        .link-card p {
+            font-size: 1.05rem;
+        }
+
+        .link-card a {
+            color: #0f6a6f;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid #28b8a0;
+            transition: border-color 0.15s;
+        }
+
+        .link-card a:hover {
+            border-bottom-color: #0b3f44;
+        }
+
+        .faq-mini {
+            background: #ecf6f5;
+            border-radius: 22px;
+            padding: 1.6rem 2rem;
+            margin-top: 2rem;
+        }
+
+        .faq-mini h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #07353b;
+            margin-bottom: 0.3rem;
+        }
+
+        .faq-mini p, .faq-mini li {
+            color: #1a424b;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .faq-mini ul {
+            list-style: none;
+            margin-top: 0.4rem;
+        }
+
+        .faq-mini ul li::before {
+            content: "﹅";
+            color: #28b8a0;
+            margin-right: 0.5rem;
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #c2dfe0, #28b8a0, #c2dfe0);
+            margin: 2.8rem 0 0.2rem;
+            opacity: 0.25;
+        }
+
+        .footer-note {
+            color: #4c6a72;
+            font-size: 0.85rem;
+            margin-top: 0.6rem;
+            text-align: center;
+        }
+
+        /* 移动端微调 */
+        @media (max-width: 460px) {
+            .hero-block h1 {
+                font-size: 2rem;
+            }
+            .hero-stat .big-number {
+                font-size: 2.2rem;
+            }
+            .link-card {
+                padding: 1.6rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- 主视觉 — 再次访问与收藏的锚点 -->
+    <div class="hero-grid">
+        <div class="hero-block">
+            <h1>回到 <em>竞彩网</em> · 常看常新</h1>
+            <p>信息聚合、赛事数据、社区洞察——这里是熟悉的信息起点。收藏当前页，每次打开都有新内容。</p>
+        </div>
+        <div class="hero-stat">
+            <span class="badge">✦ 持续关注</span>
+            <div class="big-number">85%</div>
+            <p>再次访问用户选择将 <strong>竞彩网</strong> 加入书签，月度活跃话题覆盖赛事前瞻、技巧复盘与数据解读。</p>
+        </div>
+    </div>
+
+    <!-- 用途卡片：三类典型场景 -->
+    <div class="card-grid">
+        <div class="card">
+            <span class="icon">📋</span>
+            <h3>赛事数据速览</h3>
+            <p>聚焦赛前指数、近期战绩与交锋记录。适合快速定位信息，辅助理性判断。</p>
+            <div class="tag-list">
+                <span class="tag">指数对比</span>
+                <span class="tag">战绩趋势</span>
+                <span class="tag">伤停摘要</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="icon">🧩</span>
+            <h3>社区观点沉淀</h3>
+            <p>从讨论区、专栏到热门分析帖，沉淀不同视角的思考。每周精选内容更新。</p>
+            <div class="tag-list">
+                <span class="tag">用户分析</span>
+                <span class="tag">复盘讨论</span>
+                <span class="tag highlight">周更</span>
+            </div>
+        </div>
+        <div class="card">
+            <span class="icon">📌</span>
+            <h3>工具与提醒</h3>
+            <p>赛程日历、自定义收藏、推送提醒——构建个人的关注体系，不再遗漏重要节点。</p>
+            <div class="tag-list">
+                <span class="tag">赛历同步</span>
+                <span class="tag">提醒设置</span>
+                <span class="tag">收藏夹</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 适合人群 (简洁两列) -->
+    <div class="audience-shelf">
+        <div class="audience-item">
+            <h4>📊 数据型用户</h4>
+            <p>偏好表格、概率、走势图，需要结构化的信息来辅助形成个人观点。</p>
+        </div>
+        <div class="audience-item">
+            <h4>🗂️ 长期关注者</h4>
+            <p>持续跟踪特定联赛、队伍或玩法，希望在一个地方聚合动态与讨论。</p>
+        </div>
+    </div>
+
+    <!-- 自然链接段落 + 收藏/再次访问提示 -->
+    <div class="link-card">
+        <p>
+            若你希望再次回到这个信息聚合页面，最好的方式就是将其加入浏览器书签。
+            <a href="https://main-jcw.com">竞彩网</a> 的首页结构保持清晰，同时持续更新赛事数据与社区精选内容。
+            每次访问都可能发现新的分析角度或工具入口，因此值得持续关注。
+        </p>
+        <p style="margin-top: 0.8rem; color: #1e5560;">
+            <span style="background: #dff2ef; padding: 0.2rem 1rem; border-radius: 40px; font-size: 0.85rem;">✦ 书签建议 · 主页作为常驻入口</span>
+        </p>
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+        <h4>常见关注点</h4>
+        <ul>
+            <li>如何快速找到某场赛事的详细数据？—— 顶部导航栏支持赛事搜索与筛选。</li>
+            <li>社区讨论是否有质量筛选？—— 热门帖与精选分析由系统根据互动和质量标记。</li>
+            <li>页面是否适配手机？—— 当前页采用移动优先设计，卡片布局自动适配。</li>
+        </ul>
+        <p style="margin-top: 0.6rem;">完整帮助可通过站点导航页或底部「常见问题」获取。</p>
+    </div>
+
+    <hr>
+    <div class="footer-note">
+        信息页面 · 保持更新 &nbsp;|&nbsp; 建议收藏以便持续访问
+    </div>
+
+</div>
+</body>
+</html>
